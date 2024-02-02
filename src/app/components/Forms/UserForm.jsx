@@ -6,7 +6,11 @@ import { useFormState } from "../FormContext";
 export default function UserForm() {
   const { handleNext, setFormData, formData } = useFormState();
 
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: formData,
   });
 
@@ -25,9 +29,13 @@ export default function UserForm() {
           type="text"
           name="name"
           placeholder="Ingresa tu nombre"
-          {...register("name")}
-          required
+          {...register("name", { required: true })}
         />
+        {errors.name && (
+          <p className="bg-red-400 text-xs p-2 rounded-md mt-4">
+            Ingresa un valor
+          </p>
+        )}
 
         <button className="bg-blue-500 p-2 rounded-md mt-4">Siguiente</button>
       </div>
