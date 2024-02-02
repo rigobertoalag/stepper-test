@@ -4,7 +4,11 @@ import { useFormState } from "../FormContext";
 
 export default function EmailForm() {
   const { handleNext, handleBack, setFormData, formData } = useFormState();
-  const { register, handleSubmit } = useForm({ defaultValues: formData });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues: formData });
 
   function onHandleFormSubmit(data) {
     setFormData((prevFormData) => ({ ...prevFormData, ...data }));
@@ -20,9 +24,13 @@ export default function EmailForm() {
           type="email"
           name="email"
           placeholder="Ingresa tu email"
-          {...register("email")}
-          required
+          {...register("email", { required: true })}
         />
+        {errors.email && (
+          <p className="bg-red-400 text-xs p-2 rounded-md mt-4">
+            Ingresa un valor
+          </p>
+        )}
         <div className="flex flex-row gap-1">
           <button
             type="button"
